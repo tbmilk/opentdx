@@ -21,7 +21,6 @@ __all__ = [
     "QuotationClient",
     "exQuotationClient",
     "macQuotationClient",
-    "macExQuotationClient",
     "MARKET",
     "CATEGORY",
     "PERIOD",
