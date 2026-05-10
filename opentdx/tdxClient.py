@@ -342,13 +342,7 @@ class TdxClient:
             - ``float_shares`` : float  流通股本（股），仅个股有效
             - ``turnover`` : float      换手率（%），仅个股有效
         """
-        bars = self.q_client().get_symbol_bars(market, code, period, times, start, count, adjust)
-        for bar in bars:
-            bar['turnover'] = (
-                round(bar['vol'] / bar['float_shares'] * 100, 2)
-                if bar.get('float_shares') and bar.get('vol') else 0
-            )
-        return bars
+        return self.q_client().get_symbol_bars(market, code, period, times, start, count, adjust)
 
     # ================================================================
     #  A股 — 分时 / 成交 / 竞价
@@ -705,13 +699,7 @@ class TdxClient:
             - ``float_shares`` : float  流通股本（仅个股有效）
             - ``turnover`` : float      换手率（%），仅个股有效
         """
-        bars = self.eq_client().get_symbol_bars(market, code, period, times, start, count)
-        for bar in bars:
-            bar['turnover'] = (
-                round(bar['vol'] / bar['float_shares'] * 100, 2)
-                if bar.get('float_shares') and bar.get('vol') else 0
-            )
-        return bars
+        return self.eq_client().get_symbol_bars(market, code, period, times, start, count)
 
     def goods_tick_chart(self, market: EX_MARKET, code: str, date: date = None) -> list[dict]:
         """获取商品分时图。

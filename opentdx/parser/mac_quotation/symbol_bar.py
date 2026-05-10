@@ -30,7 +30,7 @@ class SymbolBar(BaseParser):
                 "close": close,
                 "vol": vol,
                 "amount": amount,
-                "float_shares": float_shares,  # 流通股
+                "float_shares": float_shares,  # 万股
             })
 
         name, decimal, category, vol_unit, date_raw, time_raw, pre_close, open, high, low, close, momentum, vol, amount, turnover, avg, industry = struct.unpack_from("<44sBHf5x2I5ffIf12x2fI", data, 33 + count * 36)

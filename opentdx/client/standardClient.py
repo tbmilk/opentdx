@@ -18,6 +18,28 @@ class StandardClient(BaseClient):
     def __init__(self, multithread=False, heartbeat=False, auto_retry=False,
                  raise_exception=False):
         super().__init__(main_hosts, 7709, multithread, heartbeat, auto_retry, raise_exception)
+        self._decimal_map: dict[int, dict[str, int]] = {}
+
+    def _load_decimal(self, market: MARKET):
+        """从股票列表加载 decimal_point 到缓存"""
+        m = market.value
+        if m in self._decimal_map:
+            return
+        self._decimal_map[m] = {}
+        items = _paginate(
+            lambda s, c: self.call(quotation.List(market, s, c)),
+            1600, 0, 0,
+        )
+        for item in items:
+            self._decimal_map[m][item['code']] = item['decimal_point']
+
+    def _get_divisor(self, market: MARKET, code: str) -> int:
+        """根据股票类型返回价格除数 (10**decimal_point)"""
+        m = market.value
+        if m not in self._decimal_map:
+            self._load_decimal(market)
+        dp = self._decimal_map.get(m, {}).get(code, 2)
+        return 10 ** dp
 
     def _do_heartbeat(self):
         return self.call(quotation.HeartBeat())
@@ -34,19 +56,22 @@ class StandardClient(BaseClient):
 
     def quotes_adjustment(self, quotes_list: list[dict]) -> list[dict]:
         for quotes in quotes_list:
-            for item in ['high', 'low', 'open', 'close', 'pre_close', 'neg_price']:
-                quotes[item] /= 100
-            quotes['open_amount'] *= 100
-            quotes['rise_speed'] = f'{(quotes["rise_speed"] / 100):.2f}%'
-            for bid in quotes['handicap']['bid']:
-                bid['price'] /= 100
-            for ask in quotes['handicap']['ask']:
-                ask['price'] /= 100
-
             market = quotes.get('market')
             code = quotes.get('code')
-            vol = quotes.get('vol')
-            if market and code and vol:
+            divisor = self._get_divisor(market, code) if market and code else 100
+
+            for item in ['high', 'low', 'open', 'close', 'pre_close', 'neg_price']:
+                quotes[item] /= divisor
+            quotes['open_amount'] *= divisor
+            quotes['rise_speed'] = f'{(quotes["rise_speed"] / 100):.2f}%'
+            for bid in quotes['handicap']['bid']:
+                bid['price'] /= divisor
+            for ask in quotes['handicap']['ask']:
+                ask['price'] /= divisor
+
+            # turnover: vol(手) / float_shares(万股) = % (单位抵消)
+            vol_raw = quotes.get('vol', 0)
+            if market and code and vol_raw:
                 cache_key = f"{market.value}_{code}"
                 try:
                     float_shares = finance_cache.get(cache_key)
@@ -57,9 +82,14 @@ class StandardClient(BaseClient):
                             if float_shares:
                                 finance_cache.set(cache_key, float_shares)
                     if float_shares:
-                        quotes['turnover'] = round(vol * 100 / float_shares * 100, 2)
+                        quotes['turnover'] = round(vol_raw / float_shares, 2)
                 except Exception as e:
                     log.debug("获取流通股本失败 %s: %s", code, e)
+
+            # 成交量单位归一化: 手→股 (必须在 turnover 之后)
+            for vol_key in ('vol', 'cur_vol', 'in_vol', 'out_vol', 's_amount'):
+                if vol_key in quotes and quotes[vol_key]:
+                    quotes[vol_key] = quotes[vol_key] * 100
         return quotes_list
 
     def _adjust_quotes_list(self, results: list[dict]) -> list[dict]:

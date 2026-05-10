@@ -134,6 +134,10 @@ class MacQuotationMixin:
                                start=start_pos, count=current_count, fq=fq)
             result = self.call(parser)
             part = result.get('charts', [])
+            for bar in part:
+                bar['float_shares'] = bar['float_shares'] * 10000  # 万股→股
+                fs = bar.get('float_shares', 0) or 0
+                bar['turnover'] = round(bar['vol'] / fs * 100, 2) if fs and bar.get('vol') else 0
             if len(part) > 0:
                 security_list.extend(part)
             if len(part) < current_count:
@@ -145,7 +149,10 @@ class MacQuotationMixin:
     def get_symbol_tick_chart(
         self, market: MARKET | EX_MARKET, code: str, query_date: date = None,
     ):
-        return self.call(SymbolTickChart(market=market, code=code, query_date=query_date))
+        result = self.call(SymbolTickChart(market=market, code=code, query_date=query_date))
+        if result:
+            result['turnover'] = result['turnover'] / 10000  # 原始值→%
+        return result
 
     @update_last_ack_time
     def get_symbol_quotes(
