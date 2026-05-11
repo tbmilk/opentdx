@@ -181,9 +181,10 @@ class StandardClient(BaseClient):
             data = self.call(quotation.HistoryTickChart(market, code, date))
             if start != 0 or count != 0xba00:
                 data = data[start:start + count]
+        divisor = self._get_divisor(market, code)
         for item in data:
-            item['price'] /= 100
-            item['avg'] /= 10000
+            item['price'] /= divisor
+            item['avg'] /= (divisor * 100)
         return data
 
     @update_last_ack_time
@@ -233,8 +234,9 @@ class StandardClient(BaseClient):
     @update_last_ack_time
     def get_history_orders(self, market: MARKET, code: str, date: date) -> list[dict]:
         data = self.call(quotation.HistoryOrders(market, code, date))
+        divisor = self._get_divisor(market, code)
         for item in data:
-            item['price'] = item['price'] / 100
+            item['price'] = item['price'] / divisor
         return data
 
     @update_last_ack_time
@@ -253,8 +255,9 @@ class StandardClient(BaseClient):
             if len(part) < MAX_TRANSACTION_COUNT:
                 break
             start = start + len(part)
+        divisor = self._get_divisor(market, code)
         for item in transaction:
-            item['price'] = item['price'] / 100
+            item['price'] = item['price'] / divisor
         return transaction
 
     @update_last_ack_time

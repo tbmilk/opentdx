@@ -42,7 +42,7 @@ class MacQuotationMixin:
                 break
             items = part["items"]
             if len(items) > 0:
-                security_list.extend(items)
+                security_list[0:0] = items
             if len(items) < current_count:
                 log.debug(f"{msg} 数据量不足，获取结束")
                 break
@@ -70,7 +70,7 @@ class MacQuotationMixin:
                 break
             part = rs["stocks"]
             if len(part) > 0:
-                security_list.extend(part)
+                security_list[0:0] = part
             if len(part) < current_count:
                 log.debug(f"{msg} 数据量不足，获取结束")
                 break
@@ -104,7 +104,7 @@ class MacQuotationMixin:
                 break
             part = rs["stocks"]
             if len(part) > 0:
-                security_list.extend(part)
+                security_list[0:0] = part
             if len(part) < current_count:
                 log.debug(f"{msg} 数据量不足，获取结束")
                 break
@@ -152,7 +152,7 @@ class MacQuotationMixin:
                 bar['float_shares'] = fs
                 bar['turnover'] = round(bar['vol'] / fs * 100, 2) if fs and bar.get('vol') else 0
             if len(part) > 0:
-                security_list.extend(part)
+                security_list[0:0] = part
             if len(part) < current_count:
                 log.debug(f"{msg} 数据量不足,获取结束")
                 break
@@ -198,7 +198,7 @@ class MacQuotationMixin:
                 break
             part = result.get('transactions', [])
             if len(part) > 0:
-                transaction_list.extend(part)
+                transaction_list[0:0] = part
             if len(part) < current_count:
                 log.debug(f"{msg} 数据量不足，获取结束")
                 break
