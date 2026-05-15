@@ -4,25 +4,18 @@
 
 ## [Unreleased]
 
+## [0.2.4] - 2026-05-15
+
 ### Added
 
-- **五档盘口字段**：识别并命名买卖2-5档价格字段 `BID2_PRICE~BID5_PRICE` (0x48,0x80-0x82)、`ASK2_PRICE~ASK5_PRICE` (0x49,0x83-0x85)
-- **主力资金流字段**：`MAIN_NET_AMOUNT` (0x38) 今日主力净流入、`MAIN_NET_3D_AMOUNT` (0x6F) 近三日/`MAIN_NET_5D_AMOUNT` (0x70) 近五日/`MAIN_NET_10D_AMOUNT` (0x71) 近十日主力净额、`MAIN_BUY_NET_AMOUNT` (0x72) 今日主买净额
-- **其他新字段**：`PREV2_CHANGE_PCT` (0x47) 前日涨幅%、`AUCTION_BUY_LIMIT`/`AUCTION_SELL_LIMIT` (0x66-0x67) 连续竞价上下限
-- **新增预设**：`PresetField.HANDICAP` — 五档盘口（20个价格+量字段）、`PresetField.DEBUG` — 全FF位图探测
-- **字段别名**：`BID2_VOLUME`/`ASK2_VOLUME`/`BID5_VOLUME`/`ASK5_VOLUME` 语义别名，与板块统计字段同值
-- **字段副本**：`MAIN_NET_AMOUNT_COPY` (0x6B) 与 0x38 同值
 - **DDX/DDY/DDZ/DDF 字段**：`DDX` (0x73)、`DDY` (0x74)、`DDZ` (0x75)、`DDF` (0x76) 大单动向系列指标
 - **5分钟主力净额**：`MAIN_NET_5M_AMOUNT` (0x6E) 5分钟主力净额
 - **散户单增比**：`RETAIL_NET_AMOUNT` (0x6D) 散户单增比
 - **板块强度**：`BOARD_STRENGTH` (0x16) 板块强度(涨跌家数差)，仅板块指数有效
-- **更新字段注释**：`AUCTION_VOL_RATIO` (0x7A) 注释改为"竞价昨比"
 
 ### Changed
 
-- **字段重命名**：`BID`→`BID_PRICE` (0x11)、`ASK`→`ASK_PRICE` (0x12)、`LOW_COPY`→`BID2_PRICE` (0x48)、`LOW_COPY2`→`ASK2_PRICE` (0x49)、`AVG_PRICE_COPY`→`ASK5_PRICE` (0x85)、`UNKNOWN_CLOSE_PRICE`→`MAIN_NET_AMOUNT` (0x38)、`TODAY_INDICATOR`→`RECENT_INDICATOR` (0x7D)
-- **字段注释**：`UP_COUNT/DOWN_COUNT/LIMIT_UP_COUNT/LIMIT_DOWN_COUNT` 更新为板块/个股双语义注释
-- **未知字段命名**：从十进制 `unknown_field_71` 改为十六进制 `unknown_field_0x47`
+- **字段注释**：`AUCTION_VOL_RATIO` (0x7A) 注释改为"竞价昨比"
 - **单测修复**：`bid`/`ask` → `bid_price`/`ask_price`
 
 ---
