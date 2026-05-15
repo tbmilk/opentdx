@@ -60,7 +60,7 @@ class FieldBit(IntEnum):
     TURNOVER               = 0x1B, '<f', '换手'
     INDUSTRY               = 0x1C, '<I', '行业分类代码'
     INDUSTRY_CHANGE_UP     = 0x1D, '<f', '行业涨跌幅'
-    SOME_BITMAP            = 0x1E, '<I', '位图'
+    STOCK_FLAGS            = 0x1E, '<I', '位图(bit1:融资融券 bit2:沪港通 bit3:深港通 bit0/15:大小盘 bit14:含GDR bit20:ST/*ST)'
     DECIMAL_POINT          = 0x1F, '<I', '数据精度'
 
     # ── 0x20-0x2F ──
@@ -78,7 +78,8 @@ class FieldBit(IntEnum):
     FLAG_KCB               = 0x2B, '<I', '科创板标志'  # 688开头→30101 300开头→50101
     FLAG_BJ                = 0x2C, '<I', '北交所标志'
     CIRCULATING_CAPITAL_Z  = 0x2D, '<f', '流通股本Z（单位：万股）'
-    # 0x2E-0x2F 保留
+    AFTER_HOURS_VOLUME     = 0x2E, '<i', '盘后量'
+    # 0x2F 保留
 
     # ── 0x30-0x3F ──
     PE_TTM                 = 0x30, '<f', '市盈率TTM'
@@ -220,7 +221,7 @@ class PresetField(Enum):
                FieldBit.VOL_RATIO, FieldBit.AMOUNT, FieldBit.TOTAL_SHARES, FieldBit.FLOAT_SHARES, FieldBit.EPS,
                FieldBit.NET_ASSETS, FieldBit.UNKNOWN_ACTION_PRICE, FieldBit.TOTAL_MARKET_CAP_AB, FieldBit.PE_DYNAMIC,
                FieldBit.LOT_SIZE_INFO, FieldBit.DIVIDEND_YIELD, FieldBit.LAST_VOLUME,
-               FieldBit.TURNOVER, FieldBit.SOME_BITMAP, FieldBit.DECIMAL_POINT, FieldBit.BUY_PRICE_LIMIT,
+               FieldBit.TURNOVER, FieldBit.STOCK_FLAGS, FieldBit.DECIMAL_POINT, FieldBit.BUY_PRICE_LIMIT,
                FieldBit.SELL_PRICE_LIMIT, FieldBit.UNKNOWN_34, FieldBit.LOT_SIZE, FieldBit.PRE_IPOV,
                 FieldBit.SPEED_PCT, FieldBit.FLAG_KCB, FieldBit.PE_TTM, FieldBit.PE_STATIC, FieldBit.MAIN_NET_AMOUNT,
                FieldBit.VOL_SPEED_PCT, FieldBit.SHORT_TURNOVER_PCT, FieldBit.CIRCULATING_CAPITAL_Z)

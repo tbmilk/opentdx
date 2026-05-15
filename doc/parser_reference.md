@@ -259,6 +259,7 @@
 | 0x2A | operating_revenue | `<f` | 营业收入(万) |
 | 0x2B | flag_kcb | `<I` | 科创板标志 |
 | 0x2C | flag_bj | `<I` | 北交所标志 |
+| 0x2E | after_hours_volume | `<i` | 盘后量 |
 | 0x30 | pe_ttm | `<f` | 市盈率TTM |
 | 0x31 | pe_static | `<f` | 市盈率(静) |
 | 0x38 | main_net_amount | `<f` | 今日主力净流入 |
