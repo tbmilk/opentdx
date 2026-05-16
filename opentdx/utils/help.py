@@ -327,7 +327,7 @@ def unpack_by_type(unusual_type: int, data: bytearray) -> tuple[str, str, int, f
     return desc, val, v1, v2, v3, v4
 
 
-STOCK_FLAGS_LABELS: dict[int, str] = {
+STOCK_TAG_FLAGS_LABELS: dict[int, str] = {
     1 << 0:  '沪深港通大盘',
     1 << 1:  '融资融券',
     1 << 2:  '沪港通',
@@ -339,6 +339,9 @@ STOCK_FLAGS_LABELS: dict[int, str] = {
 }
 
 
-def decode_stock_flags(flags: int) -> list[str]:
-    """将 stock_flags 位图解码为可读标签列表"""
-    return [label for bit, label in STOCK_FLAGS_LABELS.items() if flags & bit]
+def decode_stock_tag_flags(flags: int) -> list[str]:
+    """将 STOCK_TAG_FLAGS 位图解码为可读标签列表"""
+    return [label for bit, label in STOCK_TAG_FLAGS_LABELS.items() if flags & bit]
+
+
+

@@ -299,7 +299,7 @@ class FILTER_TYPE(Enum):
     KC          = 2     # 排除科创板 (bit1)
     ST          = 4     # 排除ST股票 (bit2)
     CY          = 8     # 排除创业板 (bit3)
-    HK_CONNECT  = 16    # 排除互联互通标的(沪港通/深港通) (bit4)
+    HK_CONNECT  = 16    # 排除互联互通标的(仅核准制, 注册制互联互通不受此位影响) (bit4)
     BJ          = 32    # 排除北交所 (bit5)
     APPROVAL    = 64    # 排除核准制股票 (bit6)
     REGISTRATION = 128  # 排除注册制股票 (bit7)

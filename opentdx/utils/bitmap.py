@@ -60,7 +60,7 @@ class FieldBit(IntEnum):
     TURNOVER               = 0x1B, '<f', '换手'
     INDUSTRY               = 0x1C, '<I', '行业分类代码'
     INDUSTRY_CHANGE_UP     = 0x1D, '<f', '行业涨跌幅'
-    STOCK_FLAGS            = 0x1E, '<I', '位图(bit1:融资融券 bit2:沪港通 bit3:深港通 bit0/15:大小盘 bit14:含GDR bit20:ST/*ST)'
+    STOCK_TAG_FLAGS        = 0x1E, '<I', '股票[融][通][创]标签位图(bit1:融资融券 bit2:沪港通 bit3:深港通 bit0/15:大小盘 bit14:含GDR bit20:ST/*ST)'
     DECIMAL_POINT          = 0x1F, '<I', '数据精度'
 
     # ── 0x20-0x2F ──
@@ -158,7 +158,7 @@ class FieldBit(IntEnum):
     ASK5_VOLUME            = 0x8B, '<I', '卖五量(个股)'  # DOWN_COUNT 别名
     BID_ASK_DIFF           = 0x8C, '<i', '委差'  # 买量-卖量
     CHANGE_UP_TYPE         = 0x8D, '<i', '封板状态(见 enums.ChangeUpType)'
-    STOCK_ENCODE           = 0x8E, '<i', '股票特征编码(位图, bits23/25/30恒为1, bits17-22因市场而异)'
+    SAFETY_SCORE        = 0x8E, '<i', '安全分(实际为单精度浮点, 范围1~100; 1=*ST, 负数=ETF等非股票)'
     HIGHLIGHT_COUNT        = 0x8F, '<i', '亮点数'
 
     # ── 0x90-0x96: 日内时间涨幅(从昨收算) ──
@@ -221,7 +221,7 @@ class PresetField(Enum):
                FieldBit.VOL_RATIO, FieldBit.AMOUNT, FieldBit.TOTAL_SHARES, FieldBit.FLOAT_SHARES, FieldBit.EPS,
                FieldBit.NET_ASSETS, FieldBit.UNKNOWN_ACTION_PRICE, FieldBit.TOTAL_MARKET_CAP_AB, FieldBit.PE_DYNAMIC,
                FieldBit.LOT_SIZE_INFO, FieldBit.DIVIDEND_YIELD, FieldBit.LAST_VOLUME,
-               FieldBit.TURNOVER, FieldBit.STOCK_FLAGS, FieldBit.DECIMAL_POINT, FieldBit.BUY_PRICE_LIMIT,
+               FieldBit.TURNOVER, FieldBit.STOCK_TAG_FLAGS, FieldBit.DECIMAL_POINT, FieldBit.BUY_PRICE_LIMIT,
                FieldBit.SELL_PRICE_LIMIT, FieldBit.UNKNOWN_34, FieldBit.LOT_SIZE, FieldBit.PRE_IPOV,
                 FieldBit.SPEED_PCT, FieldBit.FLAG_KCB, FieldBit.PE_TTM, FieldBit.PE_STATIC, FieldBit.MAIN_NET_AMOUNT,
                FieldBit.VOL_SPEED_PCT, FieldBit.SHORT_TURNOVER_PCT, FieldBit.CIRCULATING_CAPITAL_Z)
