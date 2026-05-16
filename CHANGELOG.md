@@ -13,11 +13,21 @@
 - **封板状态枚举**：`ChangeUpType` 枚举 + `CHANGE_UP_TYPE` (0x8D) 封板状态字段
 - **日内时间涨幅**：`CHANGE_AT_1000`~`CHANGE_AT_1430` (0x90-0x96) 各时间节点日内涨幅
 - **盘后量**：`AFTER_HOURS_VOLUME` (0x2E) 盘后量
+- **过滤类型**：`FILTER_TYPE.HK_CONNECT`(16), `FILTER_TYPE.BJ`(32), `FILTER_TYPE.APPROVAL`(64), `FILTER_TYPE.REGISTRATION`(128)
+- **排除位单测**：`test_count_board_members_exclude_bj`、`test_exclude_kc_consistency`
 
 ### Changed
 
 - **字段注释**：`AUCTION_VOL_RATIO` (0x7A) 注释改为"竞价昨比"
 - **字段注释**：`DIVIDEND_YIELD` (0x17) 注释改为"每股股息(元)"，与股息率%(0x5B)区分
+- **统一过滤枚举**：删除 `BoardMemberFilter`，`FILTER_TYPE` 统一用于新旧协议（旧协议5位+MAC8位），修复 `FILTER_TYPE.BJ` 值 16→32
+- **重命名**：`STOCK_FLAGS` → `STOCK_TAG_FLAGS`（股票[融][通][创]标签），`decode_stock_flags()` → `decode_stock_tag_flags()`
+- **重命名**：`STOCK_ENCODE` → `SAFETY_SCORE`（确认该字段为通达信安全分，float编码范围1~100）
+- **注释修正**：`HK_CONNECT` 改为"排除互联互通标的(仅核准制,注册制互联互通不受此位影响)"
+
+### Removed
+
+- **`BoardMemberFilter` 枚举**：合并至 `FILTER_TYPE`
 
 ## [0.2.4] - 2026-05-15
 
