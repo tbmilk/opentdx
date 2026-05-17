@@ -2,7 +2,7 @@
 
 所有值得关注的变化均记录于此。格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)。
 
-## [Unreleased]
+## [0.2.5]
 
 ### Added
 
