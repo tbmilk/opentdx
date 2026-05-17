@@ -149,6 +149,10 @@ client.index_info([(MARKET.SH, '999999'), (MARKET.SZ, '399001')])
 
 # 指数动量
 momentum = client.index_momentum(MARKET.SZ, '399001')
+
+# 指数历史 K 线（含历史涨跌家数）
+bars = client.index_kline(MARKET.SH, '000001', PERIOD.DAILY, count=100)
+# → [{datetime, open, high, low, close, vol, amount, up_count, down_count}, ...]
 ```
 
 ### 2.7 个股特征
@@ -215,7 +219,7 @@ print(df[['今日主力净流入', '5日主力净流入']])
 # 板块文件（板块→成分股对照表）
 from opentdx.const import BLOCK_FILE_TYPE
 blocks = client.stock_block(BLOCK_FILE_TYPE.GN)
-# → [{block_name, stocks: [code, ...]}, ...]
+# → [{blockname, block_type, code_index, code}, ...]
 ```
 
 ### 板块类型速查

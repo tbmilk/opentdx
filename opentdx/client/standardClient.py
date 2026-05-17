@@ -134,10 +134,33 @@ class StandardClient(BaseClient):
 
     def get_kline(self, market: MARKET, code: str, period: PERIOD, start: int = 0,
                   count: int = 800, times: int = 1, adjust: ADJUST = ADJUST.NONE) -> list[dict]:
+        return self._get_kline_with_parser(
+            quotation.K_Line, market, code, period, start, count, times, adjust
+        )
+
+    def get_index_kline(self, market: MARKET, code: str, period: PERIOD, start: int = 0,
+                        count: int = 800, times: int = 1, adjust: ADJUST = ADJUST.NONE) -> list[dict]:
         MAX_KLINE_COUNT = 800
         bars = []
         while len(bars) < count:
-            part = self.call(quotation.K_Line(
+            part = self.call(quotation.K_Line_Offset(
+                market, code, period, times,
+                start + len(bars),
+                min((count - len(bars)), MAX_KLINE_COUNT),
+                adjust,
+            ))
+            if not part:
+                break
+            bars = [*part, *bars]
+        return bars
+
+    def _get_kline_with_parser(self, parser_cls, market: MARKET, code: str, period: PERIOD,
+                               start: int = 0, count: int = 800, times: int = 1,
+                               adjust: ADJUST = ADJUST.NONE) -> list[dict]:
+        MAX_KLINE_COUNT = 800
+        bars = []
+        while len(bars) < count:
+            part = self.call(parser_cls(
                 market, code, period, times,
                 start + len(bars),
                 min((count - len(bars)), MAX_KLINE_COUNT),

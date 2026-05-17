@@ -39,7 +39,7 @@
 | 文件 | 类名 | 命令 | 输入参数 | 输出字段 |
 |---|---|---|---|---|
 | [kline.py](opentdx/parser/quotation/kline.py) | `K_Line` | `0x0523` | `market: MARKET`<br>`code: str`<br>`period: PERIOD`<br>`times: int=1`<br>`start: int=0`<br>`count: int=800`<br>`adjust: ADJUST=NONE` | `datetime: datetime`, `open: 变长`, `close: 变长`, `high: 变长`, `low: 变长`, `vol: f`, `amount: f`, `up_count: H(可选)`, `down_count: H(可选)` |
-| [kline_offset.py](opentdx/parser/quotation/kline_offset.py) | `K_Line_Offset` | `0x052D` | 继承 K_Line，参数相同 | 继承 K_Line，输出相同 |
+| [kline_offset.py](opentdx/parser/quotation/kline_offset.py) | `K_Line_Offset` | `0x052D` | 参数同 K_Line | 指数专用差分解码：`datetime`, `open`, `close`, `high`, `low`, `vol`, `amount`, `up_count`, `down_count` |
 
 ### 1.4 分时与成交
 
@@ -122,7 +122,7 @@
 
 | 文件 | 类名 | 命令 | 输入参数 | 输出字段 |
 |---|---|---|---|---|
-| [kline.py](opentdx/parser/ex_quotation/kline.py) | `K_Line` | `0x23FF` | `market: EX_MARKET`<br>`code: str(9B)`<br>`period: PERIOD`<br>`times: int=1`<br>`start: int=0`<br>`count: int=800` | `date_time: datetime`, `open: f`, `high: f`, `low: f`, `close: f`, `amount: f`, `vol: f` |
+| [kline.py](opentdx/parser/ex_quotation/kline.py) | `K_Line` | `0x23FF` | `market: EX_MARKET`<br>`code: str(9B)`<br>`period: PERIOD`<br>`times: int=1`<br>`start: int=0`<br>`count: int=800` | `date_time: datetime`, `open: f`, `high: f`, `low: f`, `close: f`, `amount: f`, `vol: I`, `position: I`, `trade: I`, `price: f` |
 | [kline2.py](opentdx/parser/ex_quotation/kline2.py) | `K_Line2` | `0x2489` | 同上（code: 23B, body含16B填充） | `time: datetime`, `open: f`, `high: f`, `low: f`, `close: f`, `amount: f`, `vol: I` |
 
 ### 2.4 分时与成交

@@ -365,6 +365,19 @@ class TdxClient:
         """
         return self.q_client().get_symbol_bars(market, code, period, times, start, count, adjust)
 
+    def index_kline(
+        self,
+        market: MARKET,
+        code: str,
+        period: PERIOD,
+        start: int = 0,
+        count: int = 800,
+        times: int = 1,
+        adjust: ADJUST = ADJUST.NONE,
+    ) -> list[dict]:
+        """获取指数 K 线，保留历史涨跌家数字段（若服务器返回）。"""
+        return self.q_client().get_index_kline(market, code, period, start, count, times, adjust)
+
     # ================================================================
     #  A股 — 分时 / 成交 / 竞价
     # ================================================================

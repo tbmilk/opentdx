@@ -18,7 +18,9 @@ class K_Line(BaseParser):
 
         results = []
         for i in range(count):
-            date_num, open, high, low, close, amount, vol, _ = struct.unpack('<IfffffIf', data[20 + 32 * i: 20 + 32 * i + 32])
+            record = data[20 + 32 * i: 20 + 32 * i + 32]
+            date_num, open, high, low, close, amount, vol, price = struct.unpack('<IfffffIf', record)
+            position, trade = struct.unpack('<II', record[20:28])
             
             results.append({
                 'date_time': to_datetime(date_num, minute_category),
@@ -28,5 +30,8 @@ class K_Line(BaseParser):
                 'close': close,
                 'amount': amount,
                 'vol': vol,
+                'position': position,
+                'trade': trade,
+                'price': price,
             })
         return results
