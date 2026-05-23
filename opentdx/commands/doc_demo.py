@@ -532,11 +532,11 @@ def _(_tdx=None):
     client.disconnect()
 
 
-@demo('51', 'ExQuotationClient 直调 — server_info / table / download')
+@demo('51', 'ExtendedClient 直调 — server_info / table / download')
 def _(_tdx=None):
-    from opentdx.client.extendedClient import ExtendedClient as exQuotationClient
+    from opentdx.client.extendedClient import ExtendedClient
 
-    client = ExQuotationClient()
+    client = ExtendedClient()
     if not client.connect().login():
         return
 
@@ -589,7 +589,7 @@ MENU = """
 ║  48 QuotationClient 直调(心跳/公告)                                 ║
 ║  49 QuotationClient 直调(文件/CSV/表格)                             ║
 ║  50 QuotationClient 直调(加密行情/F10)                              ║
-║  51 ExQuotationClient 直调                                         ║
+║  51 ExtendedClient 直调                                            ║
 ╠════════════════════════════════════════════════════════════════════╣
 ║  a 运行全部    0 退出    m 重新显示菜单                             ║
 ╚════════════════════════════════════════════════════════════════════╝
