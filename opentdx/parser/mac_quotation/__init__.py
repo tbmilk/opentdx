@@ -14,6 +14,12 @@ from .kline_offset import KlineOffset
 from .server_info import ServerInfo
 from .file_query import FileList, FileDownload
 from .goods_list import GoodsList
+from .batch_stock import BatchStockData
+from .server_init import ServerInit
+from .stock_bar_count import StockBarCount
+from .stock_detail import StockDetail
+from .stock_query import StockQuery
+from .stock_small_info import StockSmallInfo
 
 __all__ = [
     "BoardList",
@@ -33,4 +39,10 @@ __all__ = [
     "FileList",
     "FileDownload",
     "GoodsList",
+    "BatchStockData",
+    "ServerInit",
+    "StockBarCount",
+    "StockDetail",
+    "StockQuery",
+    "StockSmallInfo",
 ]

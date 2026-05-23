@@ -1,9 +1,10 @@
 from typing import Union
 
-from .baseStockClient import BaseStockClient, update_last_ack_time, _paginate
+from .standardClient import StandardClient as BaseStockClient
+from .transport import update_last_ack_time, _paginate
 from opentdx.const import ADJUST, BOARD_TYPE, MARKET, PERIOD, EX_BOARD_TYPE, mac_hosts, mac_ex_hosts
 from opentdx.parser.mac_quotation import (
-    BoardCount, BoardList, BoardMembers, BoardMembersQuotes,
+    BoardList, BoardMembersQuotes,
     SymbolBar, SymbolBelongBoard,
     ServerInit, FileList, FileDownload,
     StockQuery, BatchStockData,
@@ -17,10 +18,6 @@ class MacQuotationClient(BaseStockClient):
         self.hosts = hosts or mac_hosts
 
     @update_last_ack_time
-    def get_board_count(self, market: Union[BOARD_TYPE, EX_BOARD_TYPE]):
-        return self.call(BoardCount(market))
-
-    @update_last_ack_time
     def get_board_list(self, market: Union[BOARD_TYPE, EX_BOARD_TYPE], count=10000):
         return _paginate(
             lambda s, c: self.call(BoardList(board_type=market, start=s, count=c)),
@@ -31,13 +28,6 @@ class MacQuotationClient(BaseStockClient):
     def get_board_members_quotes(self, board_symbol: str, count=10000):
         return _paginate(
             lambda s, c: self.call(BoardMembersQuotes(board_symbol=board_symbol, start=s, count=c))["stocks"],
-            80, count,
-        )
-
-    @update_last_ack_time
-    def get_board_members(self, board_symbol: str, count=10000):
-        return _paginate(
-            lambda s, c: self.call(BoardMembers(board_symbol=board_symbol, start=s, count=c))["stocks"],
             80, count,
         )
 
